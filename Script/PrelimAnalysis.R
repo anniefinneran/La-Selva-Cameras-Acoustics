@@ -106,6 +106,29 @@ t.test(filename ~ group, data = peccary_images_summary_with_land_data , var.equa
 #not significant
 
 
+
+#Create bargraph with results from t-test
+Metric <- c("Species","Images","Carnviores","Cats","Peccaries","Species","Images","Carnviores","Cats","Peccaries")
+Mean <- c(8.15,418.23,20.25,18.63,236.08,5.78,144.14,19.11,17.86,111.92)
+Forest <- c("Old Growth Forest","Old Growth Forest","Old Growth Forest","Old Growth Forest","Old Growth Forest",
+            "Secondary Forest","Secondary Forest","Secondary Forest","Secondary Forest","Secondary Forest")
+p.values <- c(0.08,0.007,0.897,0.939,0.039,0.08,0.007,0.897,0.939,0.039)
+  
+t.test.df <- data.frame(test,Old.Mean,Secondary.Mean,p.values)
+
+library(ggplot2)
+ggplot(t.test.df, aes(Metric, Mean, fill = Forest)) +
+  geom_bar(stat="identity", position = "dodge") +
+  labs(title="T-Test Results") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                                       panel.background = element_blank(), axis.line = element_line(colour = "black"),
+                                       axis.text.x=element_text(size=15),axis.text.y=element_text(size=15),
+                                       axis.title.x=element_text(size=15),axis.title.y=element_text(size=15),
+                                       legend.text = element_text(size=15),legend.title = element_text(size=15),
+                                       legend.position = "top") + theme(legend.title=element_blank()) + 
+                                        theme(plot.title = element_text(size = 15))
+
+
+
 ###Food Web Visualizations
 library(igraph)
 
@@ -120,4 +143,4 @@ predator_prey
 #create network
 network <- graph_from_adjacency_matrix(predator_prey)
 
-plot(network, layout=layout.sphere)
+plot(network, layout=layout.circle)
